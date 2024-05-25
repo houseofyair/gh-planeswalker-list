@@ -8,8 +8,8 @@ export default defineNuxtConfig({
       enabled: true
     },
     manifest: {
-      name: "Nuxt Vite PWA",
-      short_name: "NuxtVitePWA",
+      name: "Planeswalker List",
+      short_name: "Planeswalker List",
       theme_color: "#ffffff",
       
       icons: [
@@ -41,6 +41,10 @@ export default defineNuxtConfig({
     baseURL: '/gh-planeswalker-list/',
     head: {
       title: 'Planeswalker List',
+      meta: [
+        { name: 'description', content: 'List of MtG Planeswalker cards I still need to collect' },
+        { name: 'theme-color', content: '#ffffff' }
+      ],
       htmlAttrs: {
         lang: 'en'
       },      
