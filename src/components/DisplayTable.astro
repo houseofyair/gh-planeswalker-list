@@ -1,0 +1,63 @@
+---
+import SvgDownloader from "../components/SvgDownloader.astro";
+import type { PlaneswalkerCard } from "../data/scryfall.api";
+
+interface Props {
+	data: Array<PlaneswalkerCard>;
+}
+
+const { data } = Astro.props as Props;
+---
+
+<div class="overflow-y-scroll">
+	<table class="w-full table-fixed select-none border-slate-500 mb-12">
+		<thead class="sticky">
+			<tr>
+				<th
+					class="sticky top-[-2px] w-48 py-1 pl-2 light:bg-amber-100 light:text-black dark:bg-[#283d3b] dark:text-white"
+				>
+					<div class="flex items-center">
+						<span>Name</span>
+					</div>
+				</th>
+				<th
+					class="sticky top-[-2px] w-16 py-1 pl-2 light:bg-amber-100 light:text-black dark:bg-[#283d3b] dark:text-white text-left"
+				>
+					<div class="flex items-center">
+						<span> Set </span>
+					</div>
+				</th>
+				<th
+					class="sticky top-[-2px] w-14 py-1 pl-2 light:bg-amber-100 light:text-black dark:bg-[#283d3b] dark:text-white text-left"
+				>
+					<div class="flex items-center">
+						<span>Price</span>
+					</div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			{
+				data.map((card: PlaneswalkerCard) => (
+					<tr class="border-t border-slate-600 light:odd:bg-slate-200 light:even:bg-amber-100 light:text-black dark:odd:bg-[#001524] dark:even:bg-[#283d3b] dark:text-white">
+						<td class="border-slate-600 px-2 py-1 text-left font-normal">
+							<span> {card.display_name}</span>
+						</td>
+						<td class="border-slate-600 px-2 text-left font-light">
+							<div class="flex justify-start gap-2">
+								<SvgDownloader iconSrc={card.set_icon} class="w-4 h-4 my-auto" />
+								<span>{card.set}</span>
+							</div>
+						</td>
+						<td class="border-slate-600 px-2 text-left font-light">
+							<div class="flex justify-between">
+								<span>${card.price}</span>
+								{card.isFoil ? <span>F</span> : ""}
+							</div>
+						</td>
+					</tr>
+				))
+			}
+		</tbody>
+	</table>
+</div>

@@ -1,0 +1,20 @@
+---
+import { parse } from "node-html-parser";
+
+export interface Props {
+	iconSrc: string;
+	class: string;
+}
+
+const { iconSrc, class: className } = Astro.props as Props;
+
+// download external svg
+const contents = await fetch(iconSrc).then((r) => r.text());
+
+// generate and clean downloaded content
+const root = parse(contents);
+const svg = root.querySelector("svg");
+const { attributes, innerHTML } = svg!;
+---
+
+<svg class={className} {...attributes} set:html={innerHTML} />

@@ -1,0 +1,28 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import DisplayTable from "../components/DisplayTable.astro";
+
+import requestHttp from "../data/scryfall.api";
+
+const data: any = await requestHttp();
+---
+
+<Layout title="Planeswalker List">
+	<Navbar />
+	<main>
+		<div class="flex h-screen flex-col">
+			<DisplayTable data={data} />
+		</div>
+	</main>
+</Layout>
+
+<style is:global>
+	html[data-theme="light"] svg path {
+		fill: black;
+	}
+
+	html[data-theme="dark"] svg path {
+		fill: white;
+	}
+</style>
