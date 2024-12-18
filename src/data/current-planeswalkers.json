@@ -115,5 +115,19 @@
   { "name": "Space Beleren", "set": "unf", "lang": "en", "isReprint": false },
   { "name": "Kaito, Dancing Shadow", "set": "one", "lang": "en", "isReprint": false },
   { "name": "Kaya, Intangible Slayer", "set": "one", "lang": "en", "isReprint": false },
-  { "name": "Nahiri, the Unforgiving", "set": "one", "lang": "en", "isReprint": false }
+  { "name": "Nahiri, the Unforgiving", "set": "one", "lang": "en", "isReprint": false },
+	{ "name": "Liliana Vess", "set": "lrw", "lang": "en", "isReprint": false },
+	{ "name": "Koth of the Hammer", "set": "som", "lang": "en", "isReprint": false },
+	{ "name": "Garruk, Primal Hunter", "set": "m12", "lang": "en", "isReprint": false },
+	{ "name": "Gideon, Ally of Zendikar", "set": "bfz", "lang": "en", "isReprint": false },
+	{ "name": "Liliana, the Last Hope", "set": "emn", "lang": "en", "isReprint": false },
+	{ "name": "Chandra, Torch of Defiance", "set": "kld", "lang": "en", "isReprint": false },
+	{ "name": "Gideon Jura", "set": "roe", "lang": "en", "isReprint": false },
+	{ "name": "Garruk Wildspeaker", "set": "lrw", "lang": "en", "isReprint": false },
+	{ "name": "Sorin Markov", "set": "zen", "lang": "en", "isReprint": false },
+	{ "name": "Archangel Elspeth", "set": "mom", "lang": "en", "isReprint": false },
+	{ "name": "Invasion of New Phyrexia // Teferi Akosa of Zhalfir", "set": "mom", "lang": "en", "isReprint": false },
+	{ "name": "Karn, the Great Creator", "set": "war", "lang": "en", "isReprint": false },
+	{ "name": "Ajani, the Greathearted", "set": "war", "lang": "en", "isReprint": false },
+	{ "name": "Sivitri, Dragon Master", "set": "dmc", "lang": "en", "isReprint": false }
 ]
