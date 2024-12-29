@@ -7,57 +7,56 @@ interface Props {
 }
 
 const { data } = Astro.props as Props;
+
+const formatCurrency = (value: number) =>
+	new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD" }).format(value);
+
+const truncate = (value: string, size: number) => (value.length > size ? `${value.substring(0, size)}...` : value);
 ---
 
-<div class="overflow-y-scroll">
-	<table class="w-full table-fixed select-none border-slate-500 mb-12">
-		<thead class="sticky">
-			<tr>
-				<th
-					class="sticky top-[-2px] w-48 py-1 pl-2 light:bg-amber-100 light:text-black dark:bg-[#283d3b] dark:text-white"
-				>
-					<div class="flex items-center">
-						<span>Name</span>
+<ul id="list" class="flex-grow-1 overflow-y-auto">
+	{
+		data.map((card: PlaneswalkerCard) => (
+			<li
+				data-image-src={card.image_src}
+				class="w-100% light:odd:bg-slate-200 light:even:bg-amber-100 light:text-black dark:odd:bg-[#283d3b] dark:even:bg-[#001524] dark:text-white px-2 py-1 flex flex-row border-b-1 border-b-style-solid border-b-black"
+			>
+				<div class="flex flex-col flex-1">
+					<div>
+						<strong>{card.display_name}</strong>
 					</div>
-				</th>
-				<th
-					class="sticky top-[-2px] w-16 py-1 pl-2 light:bg-amber-100 light:text-black dark:bg-[#283d3b] dark:text-white text-left"
-				>
-					<div class="flex items-center">
-						<span> Set </span>
+					<div class="flex flex-row">
+						<SvgDownloader iconSrc={card.set_icon} class="w-4 h-4 my-auto mr-1" />
+						{truncate(card.set_name, 30)} • {card.set}
 					</div>
-				</th>
-				<th
-					class="sticky top-[-2px] w-14 py-1 pl-2 light:bg-amber-100 light:text-black dark:bg-[#283d3b] dark:text-white text-left"
-				>
-					<div class="flex items-center">
-						<span>Price</span>
+				</div>
+				<div class="flex flex-col flex-initial w-20 text-right">
+					<div>#{card.collector_number}</div>
+					<div>
+						{card.price ? formatCurrency(card.price) : "---"}
+						{card.isFoil ? <span>F</span> : ""}
 					</div>
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			{
-				data.map((card: PlaneswalkerCard) => (
-					<tr class="border-t border-slate-600 light:odd:bg-slate-200 light:even:bg-amber-100 light:text-black dark:odd:bg-[#001524] dark:even:bg-[#283d3b] dark:text-white">
-						<td class="border-slate-600 px-2 py-1 text-left font-normal">
-							<span> {card.display_name}</span>
-						</td>
-						<td class="border-slate-600 px-2 text-left font-light">
-							<div class="flex justify-start gap-2">
-								<SvgDownloader iconSrc={card.set_icon} class="w-4 h-4 my-auto" />
-								<span>{card.set}</span>
-							</div>
-						</td>
-						<td class="border-slate-600 px-2 text-left font-light">
-							<div class="flex justify-between">
-								<span>${card.price}</span>
-								{card.isFoil ? <span>F</span> : ""}
-							</div>
-						</td>
-					</tr>
-				))
-			}
-		</tbody>
-	</table>
-</div>
+				</div>
+			</li>
+		))
+	}
+</ul>
+
+<script>
+	document.querySelector("ul")!.addEventListener("click", (event) => {
+		const li = event.target!.closest("li");
+		const dialog = document.getElementsByTagName("dialog")[0];
+
+		let el = document.createElement("img");
+		el.setAttribute("src", li.dataset.imageSrc);
+
+		dialog.innerHTML = "";
+		dialog.appendChild(el);
+		dialog.showModal();
+	});
+
+	document.getElementById("dialog")?.addEventListener("click", (event: MouseEvent) => {
+		const dialog = event.target.closest("dialog");
+		dialog.close();
+	});
+</script>

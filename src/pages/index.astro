@@ -9,12 +9,11 @@ const data: any = await requestHttp();
 ---
 
 <Layout title="Planeswalker List">
-	<Navbar />
-	<main>
-		<div class="flex h-screen flex-col">
-			<DisplayTable data={data} />
-		</div>
-	</main>
+	<div class="h-screen flex flex-col">
+		<Navbar />
+		<DisplayTable data={data} />
+		<dialog id="dialog" />
+	</div>
 </Layout>
 
 <style is:global>
