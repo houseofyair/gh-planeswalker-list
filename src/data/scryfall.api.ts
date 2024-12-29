@@ -1,4 +1,3 @@
-import type { boolean } from "astro:schema";
 import collected from "./current-planeswalkers.json";
 
 export interface PlaneswalkerCard {

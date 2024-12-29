@@ -44,11 +44,11 @@ const truncate = (value: string, size: number) => (value.length > size ? `${valu
 
 <script>
 	document.querySelector("ul")!.addEventListener("click", (event) => {
-		const li = event.target!.closest("li");
+		const li = (event.target as Element).closest("li")!;
 		const dialog = document.getElementsByTagName("dialog")[0];
 
 		let el = document.createElement("img");
-		el.setAttribute("src", li.dataset.imageSrc);
+		el.setAttribute("src", li.dataset.imageSrc!);
 
 		dialog.innerHTML = "";
 		dialog.appendChild(el);
@@ -56,7 +56,7 @@ const truncate = (value: string, size: number) => (value.length > size ? `${valu
 	});
 
 	document.getElementById("dialog")?.addEventListener("click", (event: MouseEvent) => {
-		const dialog = event.target.closest("dialog");
+		const dialog = (event.target as Element).closest("dialog")!;
 		dialog.close();
 	});
 </script>
