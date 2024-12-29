@@ -1,4 +1,4 @@
-import collected from "./current-planeswalkers.json";
+import { supabase } from "../lib/supabase";
 
 export interface PlaneswalkerCard {
 	display_name: string;
@@ -11,6 +11,7 @@ export interface PlaneswalkerCard {
 	isFoil: boolean;
 }
 
+const currency_convert_url = "https://open.er-api.com/v6/latest/USD";
 const scryfall_card_url =
 	"https://api.scryfall.com/cards/search?q=type%3Aplaneswalker%20(game%3Apaper)%20-is%3Areprint%20lang%3Aen&format=json&include_extras=false&include_multilingual=false&include_variations=false&unique=cards&order=released&dir=asc&page=";
 const scryfall_set_url = "https://api.scryfall.com/sets";
@@ -31,7 +32,14 @@ async function scryfallRequest(requestUrl: string, page: number = 1) {
 }
 
 export default async function requestHttp() {
+	const { data: collection, error } = await supabase.from("planeswalkers").select("*").eq("is_collected", false);
+
+	const rateCAD = (await fetch(currency_convert_url)
+		.then((r) => r.json())
+		.then((i) => i.rates.CAD)) as number | null;
+
 	const cards = await scryfallRequest(scryfall_card_url, 1);
+
 	const sets = await fetch(scryfall_set_url)
 		.then((r) => r.json())
 		.then((i) => i.data);
@@ -65,7 +73,7 @@ export default async function requestHttp() {
 	};
 
 	const data: PlaneswalkerCard[] = cards
-		.filter((i) => !collected.find((m) => m.name === i.name && !m.isReprint))
+		.filter((i) => (collection || []).find((m) => m.name === i.name))
 		.map((card) => {
 			let pricing = getPriceString(card.prices);
 			let isFlipCard = ["transform", "modal_dfc"].includes(card.layout) as boolean;
@@ -77,7 +85,7 @@ export default async function requestHttp() {
 				set: card.set.toUpperCase(),
 				set_name: card.set_name,
 				set_icon: getSetIcon(card.set),
-				price: pricing[0],
+				price: pricing[0] * (rateCAD || 1),
 				isFoil: pricing[1],
 				image_src: getCardImage(card, isFlipCard),
 			};
