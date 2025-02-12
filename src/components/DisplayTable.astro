@@ -43,7 +43,36 @@ const truncate = (value: string, size: number) => (value.length > size ? `${valu
 </ul>
 
 <script>
-	document.querySelector("ul")!.addEventListener("click", (event) => {
+	let isDragging = false;
+	let mouseDownX = 0;
+	let mouseDownY = 0;
+
+	const targetElement = document.querySelector("ul")!;
+
+	targetElement.addEventListener("mousedown", (event) => {
+		// Record the mouse position when the mouse is pressed down
+		mouseDownX = event.clientX;
+		mouseDownY = event.clientY;
+		isDragging = false;
+	});
+
+	targetElement.addEventListener("mousemove", (event) => {
+		const moveX = Math.abs(event.clientX - mouseDownX);
+		const moveY = Math.abs(event.clientY - mouseDownY);
+
+		if (moveX > 5 || moveY > 5) {
+			isDragging = true;
+		}
+	});
+
+	targetElement.addEventListener("mouseup", (event) => {
+		if (!isDragging) {
+			populateDialog(event);
+		}
+		isDragging = false;
+	});
+
+	function populateDialog(event: MouseEvent) {
 		const li = (event.target as Element).closest("li")!;
 		const dialog = document.getElementsByTagName("dialog")[0];
 
@@ -53,7 +82,7 @@ const truncate = (value: string, size: number) => (value.length > size ? `${valu
 		dialog.innerHTML = "";
 		dialog.appendChild(el);
 		dialog.showModal();
-	});
+	}
 
 	document.getElementById("dialog")?.addEventListener("click", (event: MouseEvent) => {
 		const dialog = (event.target as Element).closest("dialog")!;
